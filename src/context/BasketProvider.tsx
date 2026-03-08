@@ -8,6 +8,7 @@ interface BasketContextType {
   deleteBasketItem: (productId: number) => void;
   increaseCount: (productId: number) => void;
   decreaseCount: (productId: number) => void;
+  calculateTotal: () => number;
 }
 
 export const BasketContext = createContext<BasketContextType | null>(null);
@@ -59,6 +60,13 @@ const BasketProvider = ({ children }: { children: React.ReactNode }) => {
       );
     });
   };
+  const calculateTotal = () => {
+    const total = basketItem.reduce(
+      (sum, item: any) => sum + item.price * item.count,
+      0,
+    );
+    return total;
+  };
 
   return (
     <BasketContext.Provider
@@ -69,6 +77,7 @@ const BasketProvider = ({ children }: { children: React.ReactNode }) => {
         deleteBasketItem,
         increaseCount,
         decreaseCount,
+        calculateTotal,
       }}
     >
       {children}
