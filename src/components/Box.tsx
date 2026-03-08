@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { BasketContext } from "../context/BasketProvider";
-import { Trash } from "lucide-react";
+import { Trash, Plus, Minus } from "lucide-react";
 
 const Box = ({
   image,
@@ -21,46 +21,58 @@ const Box = ({
   }
   const { addBasketItem, increaseCount, decreaseCount, deleteBasketItem } =
     context;
+
   return (
-    <>
-      <div
-        id={String(id)}
-        className="w-full max-w-xs md:max-w-sm mx-auto rounded overflow-hidden shadow-lg p-3 md:p-4"
-      >
-        <img
-          className="w-full h-40 md:h-48 object-cover"
-          src={image}
-          alt="Product Name"
-        />
-        <div className="px-4 py-3 md:px-6 md:py-4">
-          <div className="font-bold text-lg md:text-xl mb-1 md:mb-2">
+    <div
+      id={String(id)}
+      className="w-full max-w-70 sm:max-w-xs mx-auto rounded-2xl overflow-hidden shadow-lg bg-white border border-gray-100 flex flex-col h-full"
+    >
+      <img
+        className="w-full h-40 sm:h-48 object-cover rounded-t-2xl"
+        src={image}
+        alt={name}
+      />
+
+      <div className="px-4 py-4 flex flex-col grow">
+        <div className="mb-auto">
+          <h3 className="font-extrabold text-base sm:text-lg text-gray-900 mb-1 line-clamp-1">
             {name}
-          </div>
-          <p className="text-gray-700 text-sm md:text-base">
+          </h3>
+          <p className="text-gray-500 text-xs sm:text-sm leading-relaxed line-clamp-2">
             Short description of the product goes here.
           </p>
         </div>
-        <div className="px-4 pb-2 md:px-6 md:pb-4 flex justify-between items-center">
-          <span className="text-base md:text-lg font-semibold text-gray-900">
+
+        <div className="mt-4 flex flex-wrap gap-2 justify-between items-center pt-3 border-t border-gray-100">
+          <span className="text-lg sm:text-xl font-bold text-gray-950">
             ${price}
           </span>
+
           {count ? (
-            <div className="flex items-center border border-gray-300 rounded-md">
+            <div className="flex items-center gap-1 p-1 bg-gray-50 rounded-full border border-gray-200 shadow-inner">
               <button
                 onClick={() => decreaseCount(id)}
-                className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-l-md transition"
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white border border-gray-100 shadow-sm text-gray-800 hover:bg-gray-100 hover:border-gray-200 transition"
+                aria-label="Decrease quantity"
               >
-                -
+                <Minus className="w-3 h-3 sm:w-4 sm:h-4" />
               </button>
-              <span className="px-4 font-semibold text-gray-800">{count}</span>
+              <span className="px-1.5 sm:px-2 font-semibold text-gray-800 text-sm">
+                {count}
+              </span>
               <button
                 onClick={() => increaseCount(id)}
-                className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-r-md transition"
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-white border border-gray-100 shadow-sm text-gray-800 hover:bg-gray-100 hover:border-gray-200 transition"
+                aria-label="Increase quantity"
               >
-                +
+                <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
               </button>
-              <button onClick={() => deleteBasketItem(id)}>
-                <Trash />
+              <button
+                onClick={() => deleteBasketItem(id)}
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition"
+                aria-label="Remove item from cart"
+              >
+                <Trash className="w-3 h-3 sm:w-4 sm:h-4" />
               </button>
             </div>
           ) : (
@@ -74,14 +86,15 @@ const Box = ({
                   count: count ?? 1,
                 })
               }
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-3 md:py-2 md:px-4 rounded text-sm md:text-base transition"
+              className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-4 rounded-full text-xs sm:text-sm transition duration-300 shadow-md hover:shadow-lg flex items-center gap-1.5"
             >
+              <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
               Add to Cart
             </button>
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

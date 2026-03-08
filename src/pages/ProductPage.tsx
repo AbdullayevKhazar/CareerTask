@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import Box from "../components/Box";
 
 export const MockData = [
@@ -38,82 +38,55 @@ export const MockData = [
     price: 40,
     image: "https://picsum.photos/200?random=6",
   },
-  {
-    id: 7,
-    name: "USB-C Hub",
-    price: 55,
-    image: "https://picsum.photos/200?random=7",
-  },
-  {
-    id: 8,
-    name: "4K Monitor",
-    price: 420,
-    image: "https://picsum.photos/200?random=8",
-  },
-  {
-    id: 9,
-    name: "External SSD",
-    price: 180,
-    image: "https://picsum.photos/200?random=9",
-  },
-  {
-    id: 10,
-    name: "Gaming Chair",
-    price: 350,
-    image: "https://picsum.photos/200?random=10",
-  },
-  {
-    id: 11,
-    name: "Wireless Charger",
-    price: 35,
-    image: "https://picsum.photos/200?random=11",
-  },
-  {
-    id: 12,
-    name: "Tablet",
-    price: 300,
-    image: "https://picsum.photos/200?random=12",
-  },
-  {
-    id: 13,
-    name: "Noise Cancelling Earbuds",
-    price: 140,
-    image: "https://picsum.photos/200?random=13",
-  },
-  {
-    id: 14,
-    name: "Portable Power Bank",
-    price: 45,
-    image: "https://picsum.photos/200?random=14",
-  },
-  {
-    id: 15,
-    name: "Smartphone Gimbal",
-    price: 110,
-    image: "https://picsum.photos/200?random=15",
-  },
 ];
+
 const ProductPage = () => {
+  const [sortOrder, setSortOrder] = useState<"default" | "asc" | "desc">(
+    "default",
+  );
+
+  const sortedProducts = [...MockData].sort((a, b) => {
+    if (sortOrder === "asc") {
+      return a.price - b.price;
+    } else if (sortOrder === "desc") {
+      return b.price - a.price;
+    }
+    return 0;
+  });
+
   return (
-    <>
-      <nav>
-        <Link to={"/basket"}>Basket</Link>
-      </nav>
-      <div className=" px-4 py-6 grid grid-cols-1 sm:grid-cols-3 gap-3 mx-auto">
-        {MockData ? (
-          MockData.map((product) => (
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="flex justify-end mb-6">
+        <select
+          value={sortOrder}
+          onChange={(e) =>
+            setSortOrder(e.target.value as "default" | "asc" | "desc")
+          }
+          className="p-2 border border-gray-300 rounded-md shadow-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition cursor-pointer"
+        >
+          <option value="default">Sıralama: Standart</option>
+          <option value="asc">Qiymət: Ucuzdan bahaya</option>
+          <option value="desc">Qiymət: Bahadan ucuza</option>
+        </select>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {sortedProducts && sortedProducts.length > 0 ? (
+          sortedProducts.map((product) => (
             <Box
+              key={product.id}
+              id={product.id}
               name={product.name}
               image={product.image}
-              id={product.id}
               price={product.price}
             />
           ))
         ) : (
-          <div>Productlar yoxdur</div>
+          <div className="col-span-full text-center text-xl text-gray-500">
+            Productlar yoxdur
+          </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

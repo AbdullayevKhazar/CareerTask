@@ -12,7 +12,7 @@ const BasketPage = () => {
   return (
     <>
       <div className=" px-4 py-6 grid grid-cols-1 sm:grid-cols-3 gap-3 mx-auto">
-        {basketItem ? (
+        {basketItem.length > 0 ? (
           basketItem.map((item) => (
             <Box
               image={item.image}
@@ -23,7 +23,7 @@ const BasketPage = () => {
             />
           ))
         ) : (
-          <p>Basket Bosdurr!!</p>
+          <p className="text-2xl text-center ">Sebetiniz Bosdur!!</p>
         )}
       </div>
     </>
